@@ -31,10 +31,24 @@ MongoClient.connect(connectionUrl,{useNewUrlParser:true, useUnifiedTopology: tru
         //     console.log("Failed")
         // })
 
-        var find=db.collection('users').find({
-            age:'21'
-        }).toArray((error,result)=>{
+        // var find=db.collection('users').find({
+        //     age:'21'
+        // }).toArray((error,result)=>{
+        //     console.log(result)
+        // })
+
+        var update=db.collection('users').updateOne({
+            _id:new mongodb.ObjectID('5f684624df692745b41ef310')
+        },
+        { $set: {
+                name:'Ayush Kamal'
+            }
+        })
+        .then((result)=>{
             console.log(result)
+        })
+        .catch((error)=>{
+            console.log("Error")
         })
     }
 })
