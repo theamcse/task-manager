@@ -1,6 +1,9 @@
 require('./db/mongoose');
+const { error } = require('console');
 var express= require('express')
 var User=require('./models/users')
+var Task=require('./models/tasks');
+const { errorMonitor } = require('stream');
 
 var app= express()
 
@@ -18,6 +21,38 @@ app.post('/user',(req,res)=>{
     })
 })
 
+
+app.get('/users/:id',(req,res)=>{
+    const _id =req.params.id
+    User.findById({_id}).then((user)=>{
+        res.send(user)
+    })
+    .catch((e)=>{
+        res.send(e)
+    })
+})
+
+app.get('/tasks/:id',(req,res)=>{
+    var _id = req.params.id
+    Task.findById({_id}).then((t)=>{
+        res.send(t)
+    })
+    .catch((e)=>{
+        res.send(e)
+    })
+})
+
+app.post('/task',(req,res)=>{
+    const task = new Task(req.body)
+    task.save().then(()=>{
+        console.log(typeof req.body.description)
+        res.send(req.body)
+    })
+    .catch((error)=>{
+        console.log(error)
+        res.send(error)
+    })
+})
 // const Users=mongoose.model('users',{
 //     name:{
 //         type:String,
